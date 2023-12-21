@@ -6,9 +6,14 @@ import { AiFillEyeInvisible, AiFillEye } from "react-icons/ai";
 
 const specialCharacter = /[!@#$%^&*()_+{}\[\]:;<>,.?~\\/-]/;
 import { useForm } from "react-hook-form";
+import useContextInfo from "../../Hooks/useContextInfo";
+import { updateProfile } from "firebase/auth";
+
+import auth from './../../Firebase/firebase.config';
+import { toast } from 'react-hot-toast';
 const Register = () => {
   const { state } = useLocation();
-
+const {register:reg} = useContextInfo()
   const [show, setShow] = useState(false);
   const [err, setErr] = useState(null);
 
@@ -21,9 +26,9 @@ const Register = () => {
 
  const onSubmit = (data) => {
     setErr(null);
-    const name = data.name;
+    const displayName = data.name;
    const email = data.email;
-   const photoUrl = data.photoUrl;
+   const photoURL = data.photoUrl;
    const password = data.password;
    
     if (password.length < 6) {
@@ -45,7 +50,19 @@ const Register = () => {
       setErr("Password must contain at least 1 number!");
       return;
     }
-   console.log(data);
+   
+    reg(email,password).then(()=>{
+        updateProfile(auth.currentUser, {
+          displayName,
+          photoURL,
+        }).then(() => {
+           toast.success(`Hello ${displayName}, welcome!`); 
+        });
+    })
+
+
+
+
  };
 
 

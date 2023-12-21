@@ -6,12 +6,17 @@ import { AiFillEyeInvisible, AiFillEye } from "react-icons/ai";
 import { useState } from "react";
 
 import { useForm } from "react-hook-form";
+import useContextInfo from "../../Hooks/useContextInfo";
+import { toast } from 'react-hot-toast';
+
 
 const Login = () => {
   const navigate = useNavigate();
   const {state} = useLocation()
   const [show, setShow] = useState(false);
   const [err, setErr] = useState(null);
+
+  const {googleSignIn,login,facebookSignIn,user} = useContextInfo()
 
    const {
      register,
@@ -25,7 +30,20 @@ const Login = () => {
     const email = data.email;
     const password = data.password;
 
+    login(email, password).then(() => {
+       
+       toast.success(`Welcome back ${user.displayName}!`);
+    }).catch(err =>{
+        if(err.message){
+            setErr("Please enter valid login credentials");
+        }
+    })
+
     
+   }
+
+   const handleSocialLogin = (social) =>{
+        social().then(()=>{})
    }
 
 
@@ -101,13 +119,13 @@ const Login = () => {
 
                 <div className="space-y-2">
                   <button
-                    // onClick={() => socialLogin(googleSignIn)}
+                    onClick={() => handleSocialLogin(googleSignIn)}
                     className="btn w-full btn-outline"
                   >
                     <FcGoogle className="text-2xl" /> continue with Google
                   </button>
                   <button
-                    // onClick={() => socialLogin(facebookSignIn)}
+                    onClick={() => handleSocialLogin(facebookSignIn)}
                     className="btn w-full btn-outline"
                   >
                     {" "}

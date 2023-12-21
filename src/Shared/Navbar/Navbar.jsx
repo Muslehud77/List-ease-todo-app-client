@@ -1,18 +1,18 @@
 import { Link, NavLink, useLocation } from 'react-router-dom';
 import logo from '../../Assets/dark.png'
 import User from './User';
+import useContextInfo from '../../Hooks/useContextInfo';
 
 const Navbar = () => {
     const {pathname} = useLocation()
-    console.log(pathname);
-    const active = 'btn btn-sm rounded-none border-b-black bg-white'
-    const pending = "btn btn-sm rounded-none bg-white"
-    const idle = "btn btn-sm rounded-none bg-white";
+    const {user} = useContextInfo()
+    const active = 'btn w-full btn-sm rounded-none border-b-black bg-white'
+    const pending = "btn w-full btn-sm rounded-none bg-white"
+    const idle = "btn w-full btn-sm rounded-none bg-white";
 
     const links = (
       <>
         <li>
-        
           <NavLink
             to={"/"}
             className={({ isActive, isPending }) =>
@@ -23,7 +23,6 @@ const Navbar = () => {
           </NavLink>
         </li>
         <li>
-        
           <NavLink
             to={"/about"}
             className={({ isActive, isPending }) =>
@@ -34,7 +33,6 @@ const Navbar = () => {
           </NavLink>
         </li>
         <li>
-        
           <NavLink
             to={"/contact"}
             className={({ isActive, isPending }) =>
@@ -44,21 +42,23 @@ const Navbar = () => {
             Contact
           </NavLink>
         </li>
-        <li>
-        
-          <NavLink
-            to={"/login"}
-            className={({ isActive, isPending }) =>
-              isPending ? pending : isActive ? active : idle
-            }
-          >
-            Login
-          </NavLink>
 
-        </li>
-        <li className='ml-5'>
-            <User/>
-        </li>
+        {user?.displayName ? (
+          <li className="ml-5">
+            <User />
+          </li>
+        ) : (
+          <li>
+            <NavLink
+              to={"/login"}
+              className={({ isActive, isPending }) =>
+                isPending ? pending : isActive ? active : idle
+              }
+            >
+              Login
+            </NavLink>
+          </li>
+        )}
       </>
     );
 
@@ -91,7 +91,7 @@ const Navbar = () => {
             </div>
             <ul
               tabIndex={0}
-              className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
+              className="  dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
             >
               {links}
             </ul>
