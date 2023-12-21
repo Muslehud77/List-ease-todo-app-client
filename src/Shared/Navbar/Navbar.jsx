@@ -1,8 +1,69 @@
-import React from 'react';
+import { Link, NavLink } from 'react-router-dom';
+import logo from '../../Assets/dark.png'
+import User from './User';
 
 const Navbar = () => {
+
+    const active = 'btn btn-sm rounded-none border-b-black bg-white'
+    const pending = "btn btn-sm rounded-none bg-white"
+    const idle = "btn btn-sm rounded-none bg-white";
+
+    const links = (
+      <>
+        <li>
+        
+          <NavLink
+            to={"/"}
+            className={({ isActive, isPending }) =>
+              isPending ? pending : isActive ? active : idle
+            }
+          >
+            Home
+          </NavLink>
+        </li>
+        <li>
+        
+          <NavLink
+            to={"/about"}
+            className={({ isActive, isPending }) =>
+              isPending ? pending : isActive ? active : idle
+            }
+          >
+            Dashboard
+          </NavLink>
+        </li>
+        <li>
+        
+          <NavLink
+            to={"/contact"}
+            className={({ isActive, isPending }) =>
+              isPending ? pending : isActive ? active : idle
+            }
+          >
+            Contact
+          </NavLink>
+        </li>
+        <li>
+        
+          <NavLink
+            to={"/login"}
+            className={({ isActive, isPending }) =>
+              isPending ? pending : isActive ? active : idle
+            }
+          >
+            Login
+          </NavLink>
+
+        </li>
+        <li className='ml-5'>
+            <User/>
+        </li>
+      </>
+    );
+
+
     return (
-      <div className="navbar bg-base-100">
+      <div className="navbar w-[60vw] absolute z-10 mt-2">
         <div className="navbar-start">
           <div className="dropdown">
             <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
@@ -25,52 +86,18 @@ const Navbar = () => {
               tabIndex={0}
               className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
             >
-              <li>
-                <a>Item 1</a>
-              </li>
-              <li>
-                <a>Parent</a>
-                <ul className="p-2">
-                  <li>
-                    <a>Submenu 1</a>
-                  </li>
-                  <li>
-                    <a>Submenu 2</a>
-                  </li>
-                </ul>
-              </li>
-              <li>
-                <a>Item 3</a>
-              </li>
+             {links}
             </ul>
           </div>
-          <a className="btn btn-ghost text-xl">daisyUI</a>
+          <Link to={"/"} className="hidden md:flex">
+            <img src={logo} className="w-32" />
+          </Link>
         </div>
-        <div className="navbar-center hidden lg:flex">
-          <ul className="menu menu-horizontal px-1">
-            <li>
-              <a>Item 1</a>
-            </li>
-            <li>
-              <details>
-                <summary>Parent</summary>
-                <ul className="p-2">
-                  <li>
-                    <a>Submenu 1</a>
-                  </li>
-                  <li>
-                    <a>Submenu 2</a>
-                  </li>
-                </ul>
-              </details>
-            </li>
-            <li>
-              <a>Item 3</a>
-            </li>
+        <div className="navbar-end hidden lg:flex">
+          <ul className=" flex justify-center items-center">
+           {links}
           </ul>
-        </div>
-        <div className="navbar-end">
-          <a className="btn">Button</a>
+         
         </div>
       </div>
     );

@@ -1,6 +1,7 @@
 
 import { Outlet } from 'react-router-dom';
 import useContextInfo from '../Hooks/useContextInfo';
+import Navbar from '../Shared/Navbar/Navbar';
 
 
 const Root = () => {
@@ -9,8 +10,8 @@ const Root = () => {
 
 
     return (
-        <div>
-           
+        <div className='relative'>
+           <Navbar/>
             <Outlet></Outlet>
         </div>
     );
