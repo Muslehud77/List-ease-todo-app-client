@@ -1,4 +1,5 @@
 
+import { Link } from 'react-router-dom';
 import bannerImg from '../../Assets/images/banner-mini.png'
 
 const Banner = () => {
@@ -16,7 +17,7 @@ const Banner = () => {
               Simplify Your Tasks, Organize Your Life.
             </h1>
             <p>Empower Your Efficiency with ListEase Today!</p>
-            <button className="btn btn-outline font-sans">Let's Explore</button>
+            <Link to={'/dashboard'} className="btn btn-outline font-sans">Let's Explore</Link>
           </div>
         </div>
       </div>

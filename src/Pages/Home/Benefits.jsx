@@ -1,6 +1,7 @@
 import { MdDeveloperMode, MdCorporateFare, MdHomeWork } from "react-icons/md";
 import { PiBankDuotone, PiStudent } from "react-icons/pi";
 import { SiFreelancer } from "react-icons/si";
+import { Link } from "react-router-dom";
 
 
 
@@ -121,7 +122,7 @@ const Benefits = () => {
           </div>
         </div>
         <div className="flex justify-center items-center mt-10">
-          <button className="btn btn-outline">Get started</button>
+          <Link to={'/dashboard'} className="btn btn-outline">Get started</Link>
         </div>
       </div>
     </section>
