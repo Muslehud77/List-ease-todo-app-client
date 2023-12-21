@@ -2,6 +2,7 @@
 import { Outlet } from 'react-router-dom';
 import useContextInfo from '../Hooks/useContextInfo';
 import Navbar from '../Shared/Navbar/Navbar';
+import Footer from '../Shared/Footer/Footer';
 
 
 const Root = () => {
@@ -13,6 +14,7 @@ const Root = () => {
         <div className='relative'>
            <Navbar/>
             <Outlet></Outlet>
+            <Footer/>
         </div>
     );
 };
