@@ -1,9 +1,10 @@
-import { Link, NavLink } from 'react-router-dom';
+import { Link, NavLink, useLocation } from 'react-router-dom';
 import logo from '../../Assets/dark.png'
 import User from './User';
 
 const Navbar = () => {
-
+    const {pathname} = useLocation()
+    console.log(pathname);
     const active = 'btn btn-sm rounded-none border-b-black bg-white'
     const pending = "btn btn-sm rounded-none bg-white"
     const idle = "btn btn-sm rounded-none bg-white";
@@ -62,8 +63,14 @@ const Navbar = () => {
     );
 
 
+
+
     return (
-      <div className="navbar w-[60vw] absolute z-10 mt-2">
+      <div
+        className={`navbar ${
+          pathname === "/" && "w-[60vw]"
+        } absolute z-10 mt-2`}
+      >
         <div className="navbar-start">
           <div className="dropdown">
             <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
@@ -86,7 +93,7 @@ const Navbar = () => {
               tabIndex={0}
               className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
             >
-             {links}
+              {links}
             </ul>
           </div>
           <Link to={"/"} className="hidden md:flex">
@@ -94,10 +101,7 @@ const Navbar = () => {
           </Link>
         </div>
         <div className="navbar-end hidden lg:flex">
-          <ul className=" flex justify-center items-center">
-           {links}
-          </ul>
-         
+          <ul className=" flex justify-center items-center">{links}</ul>
         </div>
       </div>
     );
