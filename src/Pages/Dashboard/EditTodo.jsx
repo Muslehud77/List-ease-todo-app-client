@@ -1,15 +1,35 @@
 import { useForm } from "react-hook-form";
 import useContextInfo from "./../../Hooks/useContextInfo";
 import useAxiosSecure from "../../Hooks/useAxiosSecure";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Swal from "sweetalert2";
+import { useEffect, useState } from "react";
 
-const AddToDo = () => {
+const EditTodo = () => {
   // Get user information using useContextInfo hook
   const { user } = useContextInfo();
+    
+  const {id} = useParams()
+
+  const [task,setTask] = useState({})
+  
+
 
   // Axios instance with authentication using useAxiosSecure hook
   const axiosSecure = useAxiosSecure();
+
+  useEffect(()=>{
+
+    axiosSecure.get(`/task/${id}`).then(res=>{
+        setTask(res.data)
+    })
+   
+
+
+  },[])
+
+
+
 
   // Navigate to different pages within the app using useNavigate hook
   const navigate = useNavigate();
@@ -28,15 +48,26 @@ const AddToDo = () => {
   // Function to handle form submission
   const onSubmit = async (data) => {
     // Prepare task object with user information
-    const task = { ...data, task: "todo", user: user.email };
+
+
+    const todo = { 
+        title: data.title || task.title,
+        date: data.date || task.date,
+        time: data.time || task.time,
+        priority: data.priority || task.priority,
+        details: data.details || task.details
+        
+
+
+    };
     // Send a POST request to add task endpoint
-    await axiosSecure.post("/add-task", task).then((res) => {
-      if (res.data.insertedId) {
+    await axiosSecure.patch(`/edit-task/${id}`, todo).then((res) => {
+      if (res.data.modifiedCount) {
         // Show success message using SweetAlert2
         Swal.fire({
           position: "center",
           icon: "success",
-          title: "Your task has been saved",
+          title: "Your task has been Edited",
           showConfirmButton: false,
           timer: 1500,
         });
@@ -53,7 +84,7 @@ const AddToDo = () => {
         <div className="flex flex-col text-center w-full mb-12">
           {/* Title */}
           <h1 className="sm:text-3xl text-2xl font-medium title-font mb-4 text-white">
-            Add Task
+            Edit Task
           </h1>
         </div>
         {/* Form for adding a task */}
@@ -69,7 +100,8 @@ const AddToDo = () => {
                 <label className="leading-7 text-sm text-white">Title</label>
                 {/* Title Input Field */}
                 <input
-                  {...register("title", { required: true })}
+                  defaultValue={task.title}
+                  {...register("title")}
                   placeholder="Title Here"
                   className={`${inputClasses}`}
                 />
@@ -85,7 +117,8 @@ const AddToDo = () => {
                 <label className="leading-7 text-sm text-white">Date</label>
                 {/* Date Input Field */}
                 <input
-                  {...register("date", { required: true })}
+                  defaultValue={task.date}
+                  {...register("date")}
                   type="date"
                   className={`${inputClasses}`}
                 />
@@ -101,7 +134,8 @@ const AddToDo = () => {
                 <label className="leading-7 text-sm text-white">Time</label>
                 {/* Time Input Field */}
                 <input
-                  {...register("time", { required: true })}
+                  defaultValue={task.time}
+                  {...register("time")}
                   type="time"
                   className={`${inputClasses}`}
                 />
@@ -117,6 +151,7 @@ const AddToDo = () => {
                 <label className="leading-7 text-sm text-white">Priority</label>
                 {/* Priority Selection Dropdown */}
                 <select
+                  defaultValue={task.priority}
                   {...register("priority")}
                   className={`${inputClasses} h-11`}
                 >
@@ -132,7 +167,8 @@ const AddToDo = () => {
                 <label className="leading-7 text-sm text-white">Details</label>
                 {/* Details Textarea Field */}
                 <textarea
-                  {...register("details", { required: true })}
+                  defaultValue={task.details}
+                  {...register("details")}
                   placeholder="Details here"
                   className="w-full rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 h-32 text-base outline-none text-black py-1 px-3 resize-none leading-6 transition-colors duration-200 ease-in-out"
                 ></textarea>
@@ -145,7 +181,7 @@ const AddToDo = () => {
             {/* Button for adding the task */}
             <div className="p-2 w-full flex justify-center">
               <button className="btn btn-outline outline-white outline text-white">
-                Add Task
+                Edit Task
               </button>
             </div>
           </div>
@@ -155,4 +191,4 @@ const AddToDo = () => {
   );
 };
 
-export default AddToDo;
+export default EditTodo;

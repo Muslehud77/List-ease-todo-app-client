@@ -10,6 +10,7 @@ import PrivateRouteForDashboard from "../PrivateRoute/PrivateRouteForDashboard/P
 import ToDoList from './../Pages/Dashboard/ToDoList';
 import OnGoing from './../Pages/Dashboard/OnGoing';
 import Completed from './../Pages/Dashboard/Completed';
+import EditTodo from "../Pages/Dashboard/EditTodo";
 
 export const router = createBrowserRouter([
   {
@@ -59,6 +60,10 @@ export const router = createBrowserRouter([
           {
             path: "/dashboard/completed",
             element: <Completed />,
+          },
+          {
+            path: "/dashboard/edit-task/:id",
+            element: <EditTodo />,
           },
         ],
       },
