@@ -1,33 +1,36 @@
-import { useState } from "react";
+
+
+import {  useState } from "react";
+
 import { AiFillEyeInvisible, AiFillEye } from "react-icons/ai";
+
+const specialCharacter = /[!@#$%^&*()_+{}\[\]:;<>,.?~\\/-]/;
 import { useForm } from "react-hook-form";
 import useContextInfo from "../../Hooks/useContextInfo";
 import { updateProfile } from "firebase/auth";
-import auth from "./../../Firebase/firebase.config";
-import { toast } from "react-hot-toast";
 
-// Regular expression to check for special characters
-const specialCharacter = /[!@#$%^&*()_+{}\[\]:;<>,.?~\\/-]/;
-
+import auth from './../../Firebase/firebase.config';
+import { toast } from 'react-hot-toast';
 const Register = () => {
-  const { register: reg } = useContextInfo();
+ 
+const {register:reg} = useContextInfo()
   const [show, setShow] = useState(false);
   const [err, setErr] = useState(null);
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm();
+ const {
+   register,
+   handleSubmit,
 
-  const onSubmit = (data) => {
+   formState: { errors },
+ } = useForm();
+
+ const onSubmit = (data) => {
     setErr(null);
     const displayName = data.name;
-    const email = data.email;
-    const photoURL = data.photoUrl;
-    const password = data.password;
-
-    // Password validation checks
+   const email = data.email;
+   const photoURL = data.photoUrl;
+   const password = data.password;
+   
     if (password.length < 6) {
       setErr("Password must be at least 6 characters!");
       return;
@@ -47,26 +50,29 @@ const Register = () => {
       setErr("Password must contain at least 1 number!");
       return;
     }
+   
+    reg(email,password).then(()=>{
+        updateProfile(auth.currentUser, {
+          displayName,
+          photoURL,
+        }).then(() => {
+           toast.success(`Hello ${displayName}, welcome!`); 
+        });
+    })
 
-    // Registering user and updating profile
-    reg(email, password).then(() => {
-      updateProfile(auth.currentUser, {
-        displayName,
-        photoURL,
-      }).then(() => {
-        toast.success(`Hello ${displayName}, welcome!`);
-      });
-    });
-  };
+
+
+
+ };
+
+
 
   return (
     <section className="relative  py-20">
-      {/* Registration Section */}
       <div>
         <div className="max-w-md  py-10 px-12 mx-auto space-y-8  border mt-10 text-black backdrop-blur-md rounded-md">
           <h2 className="font-semibold text-3xl">Register Account</h2>
           <hr />
-          {/* Registration Form */}
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
             <p className="font-semibold">Your Name</p>
             <input
@@ -78,11 +84,26 @@ const Register = () => {
             {errors.name && (
               <span className="text-red-500">Name is required!</span>
             )}
+            <p className="font-semibold">Your Photo</p>
+            <input
+              type="url"
+              name="photoUrl"
+              {...register("photoUrl")}
+              placeholder="Your photo url"
+              className="input input-bordered w-full bg-gray-100 text-black"
+            />
 
-            {/* Other input fields */}
-            {/* ... (omitted for brevity) ... */}
-
-            {/* Password field */}
+            <p className="font-semibold">Your Email</p>
+            <input
+              type="email"
+              name="email"
+              {...register("email", { required: true })}
+              placeholder="Enter your email"
+              className="input input-bordered w-full bg-gray-100 text-black"
+            />
+            {errors.email && (
+              <span className="text-red-500">Email is required!</span>
+            )}
             <p className="font-semibold">Set Password</p>
             <div className="relative">
               <input
@@ -110,30 +131,30 @@ const Register = () => {
                 <p>{err}</p>
               </div>
             )}
-
-            {/* Terms and conditions checkbox */}
             <div className="space-y-8">
               <div className="flex items-center gap-2">
                 <input
                   {...register("terms", {
                     required: " Check Terms and Conditions!",
                   })}
-                  value="yes"
+                  value='yes'
                   type="checkbox"
                   className="checkbox checkbox-sm bg-white"
+                  
                 />
+
                 <label>
-                  Accept{" "}
+                  Accept {" "}
                   <a className="hover:underline" href="">
-                    Terms & Conditions
+                     Terms & Conditions
                   </a>
                 </label>
               </div>
               {errors.terms && (
-                <span className="text-red-500">{errors.terms.message}</span>
+                <span className="text-red-500">
+                 {errors.terms.message}
+                </span>
               )}
-
-              {/* Submit button */}
               <input
                 type="submit"
                 value="Register"

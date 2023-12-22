@@ -5,7 +5,7 @@ import ListTable from './DashboardComponents/ListTable';
 
 const ToDoList = () => {
 
-    const {todo:todos,refetch} = useTodoList()
+    const {todo:todos,refetch,isFetching} = useTodoList()
 
  
 
@@ -20,12 +20,20 @@ const ToDoList = () => {
         <h1 className="sm:text-3xl text-2xl text-center font-medium title-font mb-4 text-white">
           To-Do List
         </h1>
-        {todos.length > 0 ? (
-          <ListTable lists={todos} refetch={refetch} from={"todo"} />
+        {isFetching ? (
+          <div className="flex justify-center items-center py-10">
+            <progress className="progress w-56 bg-white"></progress>
+          </div>
         ) : (
-          <h1 className="sm:text-3xl mt-10 text-black py-5 bg-white text-2xl text-center font-medium title-font mb-4 ">
-            There is no Todo task!
-          </h1>
+          <>
+            {todos.length > 0 ? (
+              <ListTable lists={todos} refetch={refetch} from={"todo"} />
+            ) : (
+              <h1 className="sm:text-3xl mt-10 text-black py-5 bg-white text-2xl text-center font-medium title-font mb-4 ">
+                There is no Todo task!
+              </h1>
+            )}
+          </>
         )}
       </div>
     );

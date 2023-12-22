@@ -2,7 +2,7 @@
 import { createContext, useEffect, useState } from 'react';
 import {  FacebookAuthProvider, GoogleAuthProvider, createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword, signInWithPopup, signOut } from "firebase/auth";
 import auth from './../Firebase/firebase.config';
-import {  useNavigation } from 'react-router-dom';
+
 
 export const ContextData = createContext()
 const googleProvider = new GoogleAuthProvider();
@@ -45,10 +45,12 @@ const ProviderContext = ({children}) => {
             onAuthStateChanged(auth,(currentUser)=>{
                 setUser(currentUser);
                 setLoading(false);
-                console.log(currentUser);
+               
+               
             })
+            
         }
-        return ()=> unsubscribe()
+        return unsubscribe()
     },[])
 
 
