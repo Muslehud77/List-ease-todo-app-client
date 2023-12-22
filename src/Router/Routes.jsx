@@ -8,18 +8,31 @@ import Dashboard from "../Pages/Dashboard/Dashboard";
 import AddToDo from "../Pages/Dashboard/AddToDo";
 import PrivateRouteForDashboard from "../PrivateRoute/PrivateRouteForDashboard/PrivateRouteForDashboard";
 import ToDoList from './../Pages/Dashboard/ToDoList';
-import OnGoing from './../Pages/Dashboard/OnGoing';
+
 import Completed from './../Pages/Dashboard/Completed';
 import EditTodo from "../Pages/Dashboard/EditTodo";
+import Ongoing from "./../Pages/Dashboard/OnGoing";
+import About from "../Pages/About/About";
+import Contact from "../Pages/Contact/Contact";
+import ErrorPage from "../Pages/ErrorPage/ErrorPage";
 
 export const router = createBrowserRouter([
   {
     path: "/",
     element: <Root></Root>,
+    errorElement: <ErrorPage/>,
     children: [
       {
         path: "/",
         element: <Home />,
+      },
+      {
+        path: "/about",
+        element: <About />,
+      },
+      {
+        path: "/contact",
+        element: <Contact />,
       },
       {
         path: "/login",
@@ -55,7 +68,7 @@ export const router = createBrowserRouter([
           },
           {
             path: "/dashboard/on-going",
-            element: <OnGoing />,
+            element: <Ongoing />,
           },
           {
             path: "/dashboard/completed",

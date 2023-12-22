@@ -11,7 +11,7 @@ const useTodoList = () => {
   const { user } = useContextInfo();
 
   // Fetch user's to-do list using tanstack-query
-  const { data: todo = [], isFetching } = useQuery({
+  const { data: todo = [], isFetching ,refetch} = useQuery({
     queryKey: ["todo"], // Unique key for caching purposes
     queryFn: async () => {
       // Make an authenticated GET request to fetch user's tasks
@@ -21,7 +21,7 @@ const useTodoList = () => {
   });
 
   // Return fetched to-do list and its fetching state
-  return { todo, isFetching };
+  return { todo, isFetching, refetch };
 };
 
 export default useTodoList;

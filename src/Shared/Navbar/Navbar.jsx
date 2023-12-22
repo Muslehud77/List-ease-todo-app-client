@@ -43,21 +43,23 @@ const Navbar = () => {
             Contact
           </NavLink>
         </li>
-        <li>
-          <NavLink
-            to={"/dashboard"}
-            className={({ isActive, isPending }) =>
-              isPending ? pending : isActive ? active : idle
-            }
-          >
-            Dashboard
-          </NavLink>
-        </li>
 
         {user?.displayName ? (
-          <li className="ml-5">
-            <User />
-          </li>
+          <>
+            <li>
+              <NavLink
+                to={"/dashboard"}
+                className={({ isActive, isPending }) =>
+                  isPending ? pending : isActive ? active : idle
+                }
+              >
+                Dashboard
+              </NavLink>
+            </li>
+            <li className="ml-5">
+              <User />
+            </li>
+          </>
         ) : (
           <li>
             <NavLink

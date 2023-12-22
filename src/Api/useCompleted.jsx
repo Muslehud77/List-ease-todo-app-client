@@ -11,17 +11,23 @@ const useCompleted = () => {
   const { user } = useContextInfo();
 
   // Fetch user's completed list using tanstack-query
-  const { data: completed = [], isFetching } = useQuery({
+  const {
+    data: completed = [],
+    isFetching,
+    refetch,
+  } = useQuery({
     queryKey: ["completed"], // Unique key for caching purposes
     queryFn: async () => {
       // Make an authenticated GET request to fetch user's tasks
-      const res = await axiosSecure.get(`/all-tasks/${'completed'}/${user.email}`);
+      const res = await axiosSecure.get(
+        `/all-tasks/${"completed"}/${user.email}`
+      );
       return res.data; // Return the fetched tasks
     },
   });
 
   // Return fetched completed list and its fetching state
-  return { completed, isFetching };
+  return { completed, isFetching, refetch };
 };
 
 export default useCompleted;

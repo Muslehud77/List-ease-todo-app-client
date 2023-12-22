@@ -1,4 +1,4 @@
-import React from 'react';
+
 import { Outlet } from 'react-router-dom';
 import DashNav from './DashboardComponents/DashNav';
 
@@ -6,7 +6,7 @@ const Dashboard = () => {
     return (
       <div className="mt-36 container mx-auto">
         
-        <div className="grid grid-cols-12 gap-5">
+        <div className="md:grid grid-cols-12 gap-5">
           <div className="col-span-3">
             <DashNav />
           </div>
